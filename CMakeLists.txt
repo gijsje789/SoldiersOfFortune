@@ -18,6 +18,7 @@ set(PROJECT_SOURCES
         gameinfo.h gameinfo.cpp
         mainmenu.h mainmenu.cpp mainmenu.ui
         generalassetform.h generalassetform.cpp generalassetform.ui
+        organizationstorage.h organizationstorage.cpp organizationstorage.ui
         resources.qrc
 )
 

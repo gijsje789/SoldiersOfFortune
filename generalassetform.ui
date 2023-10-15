@@ -17,6 +17,13 @@
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QLabel" name="weaponLabel">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QSpinBox" name="amountSpinBox"/>
      </item>
      <item>
@@ -37,13 +44,6 @@
       <widget class="QLabel" name="pendingLabel">
        <property name="text">
         <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTextEdit" name="InfoScreen">
-       <property name="readOnly">
-        <bool>true</bool>
        </property>
       </widget>
      </item>

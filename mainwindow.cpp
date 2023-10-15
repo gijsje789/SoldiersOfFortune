@@ -2,7 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include "mainmenu.h"
-#include "generalassetform.h"
+#include "organizationstorage.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     //MainMenu* menu = new MainMenu;
-    GeneralAssetForm* form = new GeneralAssetForm;
+    OrganizationStorage* form = new OrganizationStorage;
 
     this->setCentralWidget(form);
 }
