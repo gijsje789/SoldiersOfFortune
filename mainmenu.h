@@ -18,6 +18,12 @@ public:
 private slots:
     void on_QuitButton_pressed();
 
+    void on_NewGameButton_pressed();
+
+    void on_LoadGameButton_pressed();
+
+    void on_SettingsButton_pressed();
+
 private:
     Ui::MainMenu *ui;
 };

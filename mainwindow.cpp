@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include "mainmenu.h"
+#include "generalassetform.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,9 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    MainMenu* menu = new MainMenu;
+    //MainMenu* menu = new MainMenu;
+    GeneralAssetForm* form = new GeneralAssetForm;
 
-    this->setCentralWidget(menu);
+    this->setCentralWidget(form);
 }
 
 MainWindow::~MainWindow()

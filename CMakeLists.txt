@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         mainwindow.h mainwindow.cpp mainwindow.ui
         gameinfo.h gameinfo.cpp
         mainmenu.h mainmenu.cpp mainmenu.ui
+        generalassetform.h generalassetform.cpp generalassetform.ui
+        resources.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

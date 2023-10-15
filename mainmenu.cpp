@@ -18,3 +18,21 @@ void MainMenu::on_QuitButton_pressed()
     QCoreApplication::quit();
 }
 
+
+void MainMenu::on_NewGameButton_pressed()
+{
+
+}
+
+
+void MainMenu::on_LoadGameButton_pressed()
+{
+
+}
+
+
+void MainMenu::on_SettingsButton_pressed()
+{
+
+}
+

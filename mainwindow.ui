@@ -29,8 +29,58 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuWorld">
+    <property name="title">
+     <string>World</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="actionMap"/>
+    <addaction name="actionBases"/>
+   </widget>
+   <widget class="QMenu" name="menuOrganization">
+    <property name="title">
+     <string>Organization</string>
+    </property>
+    <addaction name="actionStorage"/>
+    <addaction name="actionPersonnel"/>
+    <addaction name="actionTraining"/>
+    <addaction name="actionFacilities"/>
+   </widget>
+   <addaction name="menuOrganization"/>
+   <addaction name="menuWorld"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionMap">
+   <property name="text">
+    <string>Map</string>
+   </property>
+  </action>
+  <action name="actionBases">
+   <property name="text">
+    <string>Bases</string>
+   </property>
+  </action>
+  <action name="actionStorage">
+   <property name="text">
+    <string>Storage</string>
+   </property>
+  </action>
+  <action name="actionPersonnel">
+   <property name="text">
+    <string>Personnel</string>
+   </property>
+  </action>
+  <action name="actionTraining">
+   <property name="text">
+    <string>Training</string>
+   </property>
+  </action>
+  <action name="actionFacilities">
+   <property name="text">
+    <string>Facilities</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

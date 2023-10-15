@@ -1,0 +1,9 @@
+{
+	"m4": {
+		"ammo": "5.56x45 NATO",
+		"velocity": 905,
+		"firing_rate": 900, 
+		"effective": 500,
+		"mass": 2.94
+	}
+}

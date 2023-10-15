@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file alias="weapon_info">resources/weapons.json</file>
+    </qresource>
+</RCC>
