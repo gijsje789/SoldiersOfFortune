@@ -30,7 +30,7 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
         QJsonObject weapon = root.value(element).toObject();
         assets.insert(element, new GeneralAssetForm(this,
                                                     element,
-                                                    weapon,
+                                                    &weapon,
                                                     0,
                                                     0));
         ui->verticalLayout->addWidget(assets[element]);

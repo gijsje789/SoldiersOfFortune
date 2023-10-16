@@ -1,19 +1,24 @@
 #include "generalassetform.h"
 #include "ui_generalassetform.h"
 
+#include <QDebug>
+
 GeneralAssetForm::GeneralAssetForm(QWidget *parent)
 {
     AssetConstructor(parent);
 }
 
-GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject &obj, int current, int pending)
+GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj, int current, int pending):
+    m_assetString(weapon),
+    m_assetObject(obj)
 {
     AssetConstructor(parent);
 
-    ui->weaponLabel->setToolTip(ConvertWeaponToText(obj));
+    ui->weaponLabel->setToolTip(ConvertAssetToText());
     ui->weaponLabel->setText(weapon);
     ui->currentLabel->setText(QString::number(current));
     ui->pendingLabel->setText(QString::number(pending));
+    ui->priceLabel->setText("$" + QString::number(m_assetObject->value("price").toDouble()));
 }
 
 
@@ -35,39 +40,52 @@ void GeneralAssetForm::AssetConstructor(QWidget *parent)
     ui->setupUi(this);
 }
 
-QString GeneralAssetForm::ConvertWeaponToText(QJsonObject &weapon)
+QString GeneralAssetForm::ConvertAssetToText()
+{
+    QString assetInfo = "";
+    if(m_assetObject->value("type").toString() == "weapon")
+    {
+        assetInfo = ConvertWeaponToText();
+    }
+    else
+    {
+        qDebug() << "Unknown type: " << m_assetObject->value("type").toString();
+    }
+    return assetInfo;
+}
+
+QString GeneralAssetForm::ConvertWeaponToText()
 {
     QString weaponInfo = "";
-    foreach(auto element, weapon.keys())
+    foreach(auto element, m_assetObject->keys())
     {
+        if(element == "type")
+        {
+            continue;
+        }
+
         if(element == "ammo")
         {
-            weaponInfo += "Ammo:\t" + weapon[element].toString();
+            weaponInfo += "Ammo:\t\t" + m_assetObject->value(element).toString();
         }
         else if(element == "weight")
         {
-            weaponInfo += "Weight:\t" + QString::number(weapon[element].toDouble()) + " kg";
+            weaponInfo += "Weight:\t\t" + QString::number(m_assetObject->value(element).toDouble()) + " kg";
         }
         else if(element == "velocity")
         {
-            weaponInfo += "Muzzle velocity:\t" + QString::number(weapon[element].toDouble()) + " m/s";
-
+            weaponInfo += "Muzzle velocity:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m/s";
         }
         else if(element == "firing_rate")
         {
-            weaponInfo += "Firing rate:\t" + QString::number(weapon[element].toDouble()) + " rpm";
-
+            weaponInfo += "Firing rate:\t" + QString::number(m_assetObject->value(element).toDouble()) + " rpm";
         }
         else if(element == "effective")
         {
-            weaponInfo += "Effective range:\t" + QString::number(weapon[element].toDouble()) + " m";
-
+            weaponInfo += "Effective range:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m";
         }
         weaponInfo += "\n";
     }
-    //QString ammo = QString("ammo:\t") + weapon.value("ammo").toString() + "\n";
-    //QString mass = QString("Weight: ") + weapon.value("weight")
-    //qDebug() << weaponInfo;
     return weaponInfo;
 }
 

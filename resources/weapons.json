@@ -1,30 +1,38 @@
 {
 	"m4": {
+		"type": "weapon",
 		"ammo": "5.56x45mm NATO",
 		"weight": 2.94,
 		"velocity": 905,
 		"firing_rate": 900, 
-		"effective": 500
+		"effective": 500,
+		"price": 700
 	},
 	"scar-l": {
+		"type": "weapon",
 		"ammo": "5.56x45mm NATO",
 		"weight": 3.29,
 		"velocity": 875,
 		"firing_rate": 650, 
-		"effective": 500
+		"effective": 500,
+		"price": 2100
 	},
 	"scar-H": {
+		"type": "weapon",
 		"ammo": "7.62x51mm NATO",
 		"weight": 3.58,
 		"velocity": 870,
 		"firing_rate": 550, 
-		"effective": 600
+		"effective": 600,
+		"price": 3000
 	},
 	"AK-47": {
-		"ammo": "7.62x39",
+		"type": "weapon",
+		"ammo": "7.62x39mm",
 		"weight": 3.47,
 		"velocity": 715,
 		"firing_rate": 600, 
-		"effective": 350
+		"effective": 350,
+		"price": 600
 	}
 }

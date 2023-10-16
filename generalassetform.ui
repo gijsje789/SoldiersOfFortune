@@ -27,6 +27,13 @@
       <widget class="QSpinBox" name="amountSpinBox"/>
      </item>
      <item>
+      <widget class="QLabel" name="priceLabel">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="acquireButton">
        <property name="text">
         <string>Acquire</string>
