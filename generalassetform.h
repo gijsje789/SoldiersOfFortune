@@ -27,9 +27,9 @@ private:
     QString m_assetString;
 
 
-    void AssetConstructor(QWidget *parent);
-    QString ConvertAssetToText();
-    QString ConvertWeaponToText();
+    void assetConstructor(QWidget *parent);
+    QString convertAssetToText();
+    QString convertWeaponToText();
 };
 
 #endif // GENERALASSETFORM_H

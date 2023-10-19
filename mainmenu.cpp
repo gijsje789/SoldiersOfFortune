@@ -1,8 +1,9 @@
 #include "mainmenu.h"
 #include "ui_mainmenu.h"
 
-MainMenu::MainMenu(QWidget *parent) :
+MainMenu::MainMenu(QWidget *parent, MainWindow* main) :
     QWidget(parent),
+    mainWindow(main),
     ui(new Ui::MainMenu)
 {
     ui->setupUi(this);
@@ -21,7 +22,7 @@ void MainMenu::on_QuitButton_pressed()
 
 void MainMenu::on_NewGameButton_pressed()
 {
-
+    mainWindow->newGame();
 }
 
 

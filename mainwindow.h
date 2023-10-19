@@ -17,7 +17,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void UpdateMoney(double value);
+    void updateMoney(double value);
+    void newGame();
 
 private slots:
     void on_actionStorage_triggered();
@@ -28,6 +29,7 @@ private:
     QWidget* centralWidget;
     QLabel* moneyLabel;
 
-    QString ConvertNumberToDollarString(double value);
+    QString convertNumberToDollarString(double value);
+    void enableMenuBar(bool value);
 };
 #endif // MAINWINDOW_H

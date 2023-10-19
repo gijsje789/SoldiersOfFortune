@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "mainwindow.h"
+
 namespace Ui {
 class MainMenu;
 }
@@ -12,8 +14,11 @@ class MainMenu : public QWidget
     Q_OBJECT
 
 public:
-    explicit MainMenu(QWidget *parent = nullptr);
+    explicit MainMenu(QWidget *parent = nullptr, MainWindow* main = nullptr);
     ~MainMenu();
+
+private:
+    MainWindow* mainWindow;
 
 private slots:
     void on_QuitButton_pressed();

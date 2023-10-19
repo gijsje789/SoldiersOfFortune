@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    centralWidget = new MainMenu;
+    centralWidget = new MainMenu(this, this);
     this->setCentralWidget(centralWidget);
 
     moneyLabel = new QLabel();
@@ -21,7 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
     moneyLabel->setAlignment(Qt::AlignLeft);
     ui->menubar->setCornerWidget(moneyLabel);
 
-    UpdateMoney(100000000);
+    ui->menubar->setEnabled(false);
+
+    updateMoney(100000000);
 }
 
 MainWindow::~MainWindow()
@@ -29,12 +31,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::UpdateMoney(double value)
+void MainWindow::updateMoney(double value)
 {
-    moneyLabel->setText(ConvertNumberToDollarString(value));
+    moneyLabel->setText(convertNumberToDollarString(value));
 }
 
-QString MainWindow::ConvertNumberToDollarString(double value)
+void MainWindow::enableMenuBar(bool value)
+{
+    ui->menubar->setEnabled(value);
+}
+
+void MainWindow::newGame()
+{
+    enableMenuBar(true);
+    on_actionStorage_triggered();
+}
+
+QString MainWindow::convertNumberToDollarString(double value)
 {
     QString currency = QString::number(value, 'f', 2);
     auto decimal = currency.indexOf('.');  // find decimal point

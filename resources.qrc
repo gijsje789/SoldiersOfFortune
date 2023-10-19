@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/resources">
         <file alias="weapon_info">resources/weapons.json</file>
-        <file alias="weapon_m4">resources/m4.jpeg</file>
     </qresource>
 </RCC>

@@ -3,18 +3,21 @@
 
 #include <QDebug>
 
+#include "gameinfo.h"
+
+
 GeneralAssetForm::GeneralAssetForm(QWidget *parent)
 {
-    AssetConstructor(parent);
+    assetConstructor(parent);
 }
 
 GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj, int current, int pending):
     m_assetString(weapon),
     m_assetObject(obj)
 {
-    AssetConstructor(parent);
+    assetConstructor(parent);
 
-    ui->weaponLabel->setToolTip(ConvertAssetToText());
+    ui->weaponLabel->setToolTip(convertAssetToText());
     ui->weaponLabel->setText(weapon);
     ui->currentLabel->setText(QString::number(current));
     ui->pendingLabel->setText(QString::number(pending));
@@ -30,22 +33,23 @@ GeneralAssetForm::~GeneralAssetForm()
 
 void GeneralAssetForm::on_acquireButton_pressed()
 {
-
+    GameInfo::getInstance()->addAsset(m_assetString, ui->amountSpinBox->value());
+    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getAsset(m_assetString), 'f', 0));
 }
 
-void GeneralAssetForm::AssetConstructor(QWidget *parent)
+void GeneralAssetForm::assetConstructor(QWidget *parent)
 {
     this->setParent(parent);
     ui = new Ui::GeneralAssetForm;
     ui->setupUi(this);
 }
 
-QString GeneralAssetForm::ConvertAssetToText()
+QString GeneralAssetForm::convertAssetToText()
 {
     QString assetInfo = "";
     if(m_assetObject->value("type").toString() == "weapon")
     {
-        assetInfo = ConvertWeaponToText();
+        assetInfo = convertWeaponToText();
     }
     else
     {
@@ -54,7 +58,7 @@ QString GeneralAssetForm::ConvertAssetToText()
     return assetInfo;
 }
 
-QString GeneralAssetForm::ConvertWeaponToText()
+QString GeneralAssetForm::convertWeaponToText()
 {
     QString weaponInfo = "";
     foreach(auto element, m_assetObject->keys())
