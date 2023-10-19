@@ -35,6 +35,7 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
                                                     0));
         ui->verticalLayout->addWidget(assets[element]);
     }
+    ui->verticalLayout->addSpacerItem(new QSpacerItem(10,10, QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
 
 OrganizationStorage::~OrganizationStorage()

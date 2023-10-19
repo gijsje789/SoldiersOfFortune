@@ -59,32 +59,26 @@ QString GeneralAssetForm::ConvertWeaponToText()
     QString weaponInfo = "";
     foreach(auto element, m_assetObject->keys())
     {
-        if(element == "type")
-        {
-            continue;
-        }
-
         if(element == "ammo")
         {
-            weaponInfo += "Ammo:\t\t" + m_assetObject->value(element).toString();
+            weaponInfo += "Ammo:\t\t" + m_assetObject->value(element).toString() + "\n";
         }
         else if(element == "weight")
         {
-            weaponInfo += "Weight:\t\t" + QString::number(m_assetObject->value(element).toDouble()) + " kg";
+            weaponInfo += "Weight:\t\t" + QString::number(m_assetObject->value(element).toDouble()) + " kg\n";
         }
         else if(element == "velocity")
         {
-            weaponInfo += "Muzzle velocity:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m/s";
+            weaponInfo += "Muzzle velocity:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m/s\n";
         }
         else if(element == "firing_rate")
         {
-            weaponInfo += "Firing rate:\t" + QString::number(m_assetObject->value(element).toDouble()) + " rpm";
+            weaponInfo += "Firing rate:\t" + QString::number(m_assetObject->value(element).toDouble()) + " rpm\n";
         }
         else if(element == "effective")
         {
-            weaponInfo += "Effective range:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m";
+            weaponInfo += "Effective range:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m\n";
         }
-        weaponInfo += "\n";
     }
     return weaponInfo;
 }

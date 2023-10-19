@@ -1,5 +1,5 @@
 {
-	"m4": {
+	"Colt M4A1": {
 		"type": "weapon",
 		"ammo": "5.56x45mm NATO",
 		"weight": 2.94,
@@ -8,7 +8,7 @@
 		"effective": 500,
 		"price": 700
 	},
-	"scar-l": {
+	"FN MK16": {
 		"type": "weapon",
 		"ammo": "5.56x45mm NATO",
 		"weight": 3.29,
@@ -17,7 +17,7 @@
 		"effective": 500,
 		"price": 2100
 	},
-	"scar-H": {
+	"FN MK17": {
 		"type": "weapon",
 		"ammo": "7.62x51mm NATO",
 		"weight": 3.58,
