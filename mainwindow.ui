@@ -47,6 +47,17 @@
     <addaction name="actionTraining"/>
     <addaction name="actionFacilities"/>
    </widget>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionNew_game"/>
+    <addaction name="actionSave_game"/>
+    <addaction name="actionLoad_game"/>
+    <addaction name="actionSettings"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <addaction name="menuMenu"/>
    <addaction name="menuOrganization"/>
    <addaction name="menuWorld"/>
   </widget>
@@ -79,6 +90,31 @@
   <action name="actionFacilities">
    <property name="text">
     <string>Facilities</string>
+   </property>
+  </action>
+  <action name="actionNew_game">
+   <property name="text">
+    <string>New game</string>
+   </property>
+  </action>
+  <action name="actionLoad_game">
+   <property name="text">
+    <string>Load game</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionSave_game">
+   <property name="text">
+    <string>Save game</string>
    </property>
   </action>
  </widget>

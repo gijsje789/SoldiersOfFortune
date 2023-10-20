@@ -7,6 +7,11 @@ GameInfo::GameInfo()
 
 }
 
+void GameInfo::saveAssetsToFile()
+{
+
+}
+
 GameInfo* GameInfo::getInstance()
 {
     if (m_instancePtr == nullptr)
@@ -19,22 +24,37 @@ GameInfo* GameInfo::getInstance()
 
 void GameInfo::addAsset(QString name, int number)
 {
-    if(m_assets.contains(name))
+    if(m_weaponAssets.contains(name))
     {
-        m_assets[name] += number;
+        m_weaponAssets[name] += number;
     }
     else
     {
-        m_assets.insert(name, number);
+        m_weaponAssets.insert(name, number);
     }
 }
 
 int GameInfo::getAsset(QString name)
 {
     int rval = 0;
-    if(m_assets.contains(name))
+    if(m_weaponAssets.contains(name))
     {
-        rval = m_assets[name];
+        rval = m_weaponAssets[name];
     }
     return rval;
+}
+
+void GameInfo::quit()
+{
+
+}
+
+void GameInfo::saveGame()
+{
+
+}
+
+void GameInfo::loadGame(QString file)
+{
+
 }

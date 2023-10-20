@@ -3,9 +3,13 @@
 
 #include "mainmenu.h"
 #include "organizationstorage.h"
+#include "gameinfo.h"
 
 #include <QMenuBar>
 #include <QMenu>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,10 +45,51 @@ void MainWindow::enableMenuBar(bool value)
     ui->menubar->setEnabled(value);
 }
 
+void MainWindow::switchCentralWidget(QWidget *newWidget)
+{
+    this->setCentralWidget(newWidget);
+    delete centralWidget;
+    centralWidget = newWidget;
+}
+
 void MainWindow::newGame()
 {
     enableMenuBar(true);
     on_actionStorage_triggered();
+}
+
+void MainWindow::loadGame()
+{
+    // find the load folder
+    // give option to select from it
+    if(QDir("./save_games").exists())
+    {
+        qDebug() << "Saved games folder exists.";
+        enableMenuBar(true);
+        GameInfo::getInstance()->loadGame("");
+        on_actionStorage_triggered();
+    }
+    else
+    {
+        qDebug() << "Saved games does not exist.";
+        // TODO: give warning
+    }
+}
+
+void MainWindow::saveGame()
+{
+    // TODO: save a game
+    // TODO: create folder if needed.
+}
+
+void MainWindow::settings()
+{
+
+}
+
+void MainWindow::quit()
+{
+    QCoreApplication::quit();
 }
 
 QString MainWindow::convertNumberToDollarString(double value)
@@ -65,9 +110,6 @@ QString MainWindow::convertNumberToDollarString(double value)
 
 void MainWindow::on_actionStorage_triggered()
 {
-    QWidget* tempWidget = new OrganizationStorage;
-    this->setCentralWidget(tempWidget);
-    delete centralWidget;
-    centralWidget = tempWidget;
+    switchCentralWidget(new OrganizationStorage);
 }
 

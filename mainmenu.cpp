@@ -16,7 +16,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::on_QuitButton_pressed()
 {
-    QCoreApplication::quit();
+    mainWindow->quit();
 }
 
 
@@ -28,12 +28,12 @@ void MainMenu::on_NewGameButton_pressed()
 
 void MainMenu::on_LoadGameButton_pressed()
 {
-
+    mainWindow->loadGame();
 }
 
 
 void MainMenu::on_SettingsButton_pressed()
 {
-
+    mainWindow->settings();
 }
 

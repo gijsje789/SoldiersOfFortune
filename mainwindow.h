@@ -20,6 +20,10 @@ public:
     void updateMoney(double value);
     void newGame();
 
+    void quit();
+    void settings();
+    void loadGame();
+    void saveGame();
 private slots:
     void on_actionStorage_triggered();
 
@@ -31,5 +35,6 @@ private:
 
     QString convertNumberToDollarString(double value);
     void enableMenuBar(bool value);
+    void switchCentralWidget(QWidget* newWidget);
 };
 #endif // MAINWINDOW_H
