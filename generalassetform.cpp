@@ -33,8 +33,8 @@ GeneralAssetForm::~GeneralAssetForm()
 
 void GeneralAssetForm::on_acquireButton_pressed()
 {
-    GameInfo::getInstance()->addAsset(m_assetString, ui->amountSpinBox->value());
-    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getAsset(m_assetString), 'f', 0));
+    GameInfo::getInstance()->addweaponAsset(m_assetString, ui->amountSpinBox->value());
+    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getWeaponAsset(m_assetString), 'f', 0));
 }
 
 void GeneralAssetForm::assetConstructor(QWidget *parent)

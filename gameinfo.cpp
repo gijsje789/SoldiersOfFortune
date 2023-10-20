@@ -1,5 +1,8 @@
 #include "gameinfo.h"
 
+#include <QDir>
+#include <QJsonDocument>
+
 GameInfo* GameInfo::m_instancePtr = nullptr;
 
 GameInfo::GameInfo()
@@ -22,7 +25,7 @@ GameInfo* GameInfo::getInstance()
     return m_instancePtr;
 }
 
-void GameInfo::addAsset(QString name, int number)
+void GameInfo::addweaponAsset(QString name, int number)
 {
     if(m_weaponAssets.contains(name))
     {
@@ -34,7 +37,7 @@ void GameInfo::addAsset(QString name, int number)
     }
 }
 
-int GameInfo::getAsset(QString name)
+int GameInfo::getWeaponAsset(QString name)
 {
     int rval = 0;
     if(m_weaponAssets.contains(name))
@@ -49,12 +52,29 @@ void GameInfo::quit()
 
 }
 
-void GameInfo::saveGame()
+void GameInfo::saveGame(QString dir)
 {
+    if(!QDir(dir).exists())
+    {
+        QDir().mkdir(dir);
+    }
+    QString file = QDir(dir).filePath("weapons.csv");
 
+    QFile output = QFile(file);
+    output.open(QIODeviceBase::WriteOnly);
+    if(output.isOpen())
+    {
+        foreach(auto element, m_weaponAssets.keys())
+        {
+            QString temp1 = QString(element);
+            QString temp2 = QString::number(m_weaponAssets.value(element), 'f', 0);
+            QString temp3 = QString('\n');
+            output.write((temp1 + ',' + temp2 + temp3).toStdString().c_str());
+        }
+    }
 }
 
-void GameInfo::loadGame(QString file)
+void GameInfo::loadGame(QString dir)
 {
 
 }

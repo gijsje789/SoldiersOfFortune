@@ -80,6 +80,7 @@ void MainWindow::saveGame()
 {
     // TODO: save a game
     // TODO: create folder if needed.
+    GameInfo::getInstance()->saveGame("./save_games/test");
 }
 
 void MainWindow::settings()
@@ -111,5 +112,11 @@ QString MainWindow::convertNumberToDollarString(double value)
 void MainWindow::on_actionStorage_triggered()
 {
     switchCentralWidget(new OrganizationStorage);
+}
+
+
+void MainWindow::on_actionSave_game_triggered()
+{
+    saveGame();
 }
 

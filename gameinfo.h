@@ -9,11 +9,11 @@ public:
     GameInfo(const GameInfo& obj) = delete;
 
     static GameInfo* getInstance();
-    void addAsset(QString name, int number);
-    int getAsset(QString name);
+    void addweaponAsset(QString name, int number);
+    int getWeaponAsset(QString name);
     void quit();
-    void saveGame();
-    void loadGame(QString file);
+    void saveGame(QString dir);
+    void loadGame(QString dir);
 private:
     GameInfo();
     static GameInfo* m_instancePtr;
