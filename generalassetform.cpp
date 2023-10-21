@@ -12,19 +12,24 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent)
 }
 
 GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj):
-    m_assetString(weapon),
-    m_assetObject(obj)
+    m_assetString(weapon)
 {
     assetConstructor(parent);
+
+    m_ammo = obj->value("ammo").toString();
+    m_weight = obj->value("weight").toDouble();
+    m_velocity = obj->value("velocity").toInt();
+    m_firingRate = obj->value("firing_rate").toInt();
+    m_effective = obj->value("effective").toInt();
+    m_price = obj->value("price").toDouble();
 
     ui->weaponLabel->setToolTip(convertAssetToText());
     ui->weaponLabel->setText(weapon);
     ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
     ui->pendingLabel->setText(QString::number(0, 'f', 0));
-    ui->priceLabel->setText("$" + QString::number(m_assetObject->value("price").toDouble()));
+    ui->priceLabel->setText("$" + QString::number(m_price));
+    qDebug() << "Constructed asset form: " << weapon;
 }
-
-
 
 GeneralAssetForm::~GeneralAssetForm()
 {
@@ -33,8 +38,12 @@ GeneralAssetForm::~GeneralAssetForm()
 
 void GeneralAssetForm::on_acquireButton_pressed()
 {
+    // TODO: add pending functionality.
     AssetManagement::getInstance()->addweaponAsset(m_assetString, ui->amountSpinBox->value());
     ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
+    qDebug() << "Amount: " << ui->amountSpinBox->value();
+    qDebug() << "AssetObject: " << m_price;
+    AssetManagement::getInstance()->takeMoney(ui->amountSpinBox->value() * m_price);
 }
 
 void GeneralAssetForm::assetConstructor(QWidget *parent)
@@ -47,13 +56,13 @@ void GeneralAssetForm::assetConstructor(QWidget *parent)
 QString GeneralAssetForm::convertAssetToText()
 {
     QString assetInfo = "";
-    if(m_assetObject->value("type").toString() == "weapon")
+    if(m_assetType == "weapon")
     {
         assetInfo = convertWeaponToText();
     }
     else
     {
-        qDebug() << "Unknown type: " << m_assetObject->value("type").toString();
+        qDebug() << "Unknown type: " << m_assetType;
     }
     return assetInfo;
 }
@@ -61,29 +70,11 @@ QString GeneralAssetForm::convertAssetToText()
 QString GeneralAssetForm::convertWeaponToText()
 {
     QString weaponInfo = "";
-    foreach(auto element, m_assetObject->keys())
-    {
-        if(element == "ammo")
-        {
-            weaponInfo += "Ammo:\t\t" + m_assetObject->value(element).toString() + "\n";
-        }
-        else if(element == "weight")
-        {
-            weaponInfo += "Weight:\t\t" + QString::number(m_assetObject->value(element).toDouble()) + " kg\n";
-        }
-        else if(element == "velocity")
-        {
-            weaponInfo += "Muzzle velocity:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m/s\n";
-        }
-        else if(element == "firing_rate")
-        {
-            weaponInfo += "Firing rate:\t" + QString::number(m_assetObject->value(element).toDouble()) + " rpm\n";
-        }
-        else if(element == "effective")
-        {
-            weaponInfo += "Effective range:\t" + QString::number(m_assetObject->value(element).toDouble()) + " m\n";
-        }
-    }
+    weaponInfo += "Ammo:\t\t" + m_ammo + "\n";
+    weaponInfo += "Weight:\t\t" + QString::number(m_weight, 'f', 2) + " kg\n";
+    weaponInfo += "Muzzle velocity:\t" + QString::number(m_velocity) + " m/s\n";
+    weaponInfo += "Firing rate:\t" + QString::number(m_firingRate) + " rpm\n";
+    weaponInfo += "Effective range:\t" + QString::number(m_effective) + " m\n";
     return weaponInfo;
 }
 

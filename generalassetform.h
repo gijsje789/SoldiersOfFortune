@@ -23,9 +23,16 @@ private slots:
 
 private:
     Ui::GeneralAssetForm *ui;
-    QJsonObject* m_assetObject;
     QString m_assetString;
+    QString m_assetType;
 
+    // Weapon specific
+    QString m_ammo;
+    double m_weight;
+    int m_velocity;
+    int m_firingRate;
+    int m_effective;
+    double m_price;
 
     void assetConstructor(QWidget *parent);
     QString convertAssetToText();

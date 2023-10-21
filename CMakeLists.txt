@@ -15,7 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.h mainwindow.cpp mainwindow.ui
-        AssetManagement.h AssetManagement.cpp
+        assetmanagement.h assetmanagement.cpp
         mainmenu.h mainmenu.cpp mainmenu.ui
         generalassetform.h generalassetform.cpp generalassetform.ui
         organizationstorage.h organizationstorage.cpp organizationstorage.ui
