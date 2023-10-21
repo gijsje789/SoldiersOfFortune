@@ -15,7 +15,7 @@ class GeneralAssetForm : public QWidget
 
 public:
     explicit GeneralAssetForm(QWidget *parent = nullptr);
-    GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj, int current, int pending);
+    GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj);
     ~GeneralAssetForm();
 
 private slots:

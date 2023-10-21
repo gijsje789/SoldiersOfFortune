@@ -11,7 +11,7 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent)
     assetConstructor(parent);
 }
 
-GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj, int current, int pending):
+GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj):
     m_assetString(weapon),
     m_assetObject(obj)
 {
@@ -19,8 +19,8 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject*
 
     ui->weaponLabel->setToolTip(convertAssetToText());
     ui->weaponLabel->setText(weapon);
-    ui->currentLabel->setText(QString::number(current));
-    ui->pendingLabel->setText(QString::number(pending));
+    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
+    ui->pendingLabel->setText(QString::number(0, 'f', 0));
     ui->priceLabel->setText("$" + QString::number(m_assetObject->value("price").toDouble()));
 }
 
@@ -34,7 +34,7 @@ GeneralAssetForm::~GeneralAssetForm()
 void GeneralAssetForm::on_acquireButton_pressed()
 {
     GameInfo::getInstance()->addweaponAsset(m_assetString, ui->amountSpinBox->value());
-    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getWeaponAsset(m_assetString), 'f', 0));
+    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
 }
 
 void GeneralAssetForm::assetConstructor(QWidget *parent)

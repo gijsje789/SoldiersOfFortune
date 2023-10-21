@@ -10,16 +10,17 @@ public:
 
     static GameInfo* getInstance();
     void addweaponAsset(QString name, int number);
-    int getWeaponAsset(QString name);
+    int getWeaponAssetCurrent(QString name);
     void quit();
     void saveGame(QString dir);
-    void loadGame(QString dir);
+    bool loadGame(QString dir);
 private:
     GameInfo();
     static GameInfo* m_instancePtr;
 
     QMap<QString, double> m_weaponAssets;
-    void saveAssetsToFile();
+    void saveWeaponAssetsToFile(QString dir);
+    void loadWeaponAssetsFromFile(QString dir);
 };
 
 #endif // GAMEINFO_H

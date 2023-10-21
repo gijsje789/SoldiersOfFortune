@@ -25,15 +25,13 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
 
     auto keys = root.keys();
     QMap<QString, GeneralAssetForm*> assets;
-    foreach(auto element, keys)
+    foreach(auto weaponName, keys)
     {
-        QJsonObject weapon = root.value(element).toObject();
-        assets.insert(element, new GeneralAssetForm(this,
-                                                    element,
-                                                    &weapon,
-                                                    0,
-                                                    0));
-        ui->verticalLayout->addWidget(assets[element]);
+        QJsonObject weapon = root.value(weaponName).toObject();
+        assets.insert(weaponName, new GeneralAssetForm(this,
+                                                    weaponName,
+                                                    &weapon));
+        ui->verticalLayout->addWidget(assets[weaponName]);
     }
     ui->verticalLayout->addSpacerItem(new QSpacerItem(10,10, QSizePolicy::Minimum, QSizePolicy::Expanding));
 }

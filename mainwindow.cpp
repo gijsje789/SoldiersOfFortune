@@ -62,12 +62,24 @@ void MainWindow::loadGame()
 {
     // find the load folder
     // give option to select from it
-    if(QDir("./save_games").exists())
+    QDir saveGameFolder = QDir("./save_games");
+    QDir saveGame = saveGameFolder.filePath("test");
+    qDebug() << "Save game: " << saveGame;
+
+    if(saveGameFolder.exists())
     {
         qDebug() << "Saved games folder exists.";
         enableMenuBar(true);
-        GameInfo::getInstance()->loadGame("");
-        on_actionStorage_triggered();
+        // TODO: trigger pop-up with available save games
+        if(GameInfo::getInstance()->loadGame(saveGame.path()))
+        {
+            on_actionStorage_triggered();
+        }
+        else
+        {
+            qDebug() << "Could not load game.";
+            // TODO: give warning
+        }
     }
     else
     {
