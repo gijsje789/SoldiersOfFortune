@@ -17,9 +17,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void updateMoney(double value);
     void newGame();
-
     void quit();
     void settings();
     void loadGame();

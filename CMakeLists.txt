@@ -15,10 +15,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.h mainwindow.cpp mainwindow.ui
-        gameinfo.h gameinfo.cpp
+        AssetManagement.h AssetManagement.cpp
         mainmenu.h mainmenu.cpp mainmenu.ui
         generalassetform.h generalassetform.cpp generalassetform.ui
         organizationstorage.h organizationstorage.cpp organizationstorage.ui
+        gamecontrol.h gamecontrol.cpp gamecontrol.ui
         resources.qrc
 )
 

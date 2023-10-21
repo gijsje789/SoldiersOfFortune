@@ -3,7 +3,8 @@
 
 #include "mainmenu.h"
 #include "organizationstorage.h"
-#include "gameinfo.h"
+#include "assetmanagement.h"
+#include "gamecontrol.h"
 
 #include <QMenuBar>
 #include <QMenu>
@@ -20,24 +21,16 @@ MainWindow::MainWindow(QWidget *parent)
     centralWidget = new MainMenu(this, this);
     this->setCentralWidget(centralWidget);
 
-    moneyLabel = new QLabel();
-    moneyLabel->setMinimumWidth(100);
-    moneyLabel->setAlignment(Qt::AlignLeft);
-    ui->menubar->setCornerWidget(moneyLabel);
+    GameControl* control = new GameControl(this);
+    ui->menubar->setCornerWidget(control);
+    AssetManagement::getInstance()->setGameControl(control);
 
     ui->menubar->setEnabled(false);
-
-    updateMoney(100000000);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::updateMoney(double value)
-{
-    moneyLabel->setText(convertNumberToDollarString(value));
 }
 
 void MainWindow::enableMenuBar(bool value)
@@ -55,6 +48,7 @@ void MainWindow::switchCentralWidget(QWidget *newWidget)
 void MainWindow::newGame()
 {
     enableMenuBar(true);
+    AssetManagement::getInstance()->setMoney(1000000000);
     on_actionStorage_triggered();
 }
 
@@ -71,7 +65,7 @@ void MainWindow::loadGame()
         qDebug() << "Saved games folder exists.";
         enableMenuBar(true);
         // TODO: trigger pop-up with available save games
-        if(GameInfo::getInstance()->loadGame(saveGame.path()))
+        if(AssetManagement::getInstance()->loadGame(saveGame.path()))
         {
             on_actionStorage_triggered();
         }
@@ -92,7 +86,7 @@ void MainWindow::saveGame()
 {
     // TODO: save a game
     // TODO: create folder if needed.
-    GameInfo::getInstance()->saveGame("./save_games/test");
+    AssetManagement::getInstance()->saveGame("./save_games/test");
 }
 
 void MainWindow::settings()
@@ -104,22 +98,6 @@ void MainWindow::quit()
 {
     QCoreApplication::quit();
 }
-
-QString MainWindow::convertNumberToDollarString(double value)
-{
-    QString currency = QString::number(value, 'f', 2);
-    auto decimal = currency.indexOf('.');  // find decimal point
-    if(decimal == std::string::npos)    // no decimal point
-        decimal = currency.length();
-    if (decimal > 3) // Insert commas
-    {
-        for (auto x = decimal - 3; x > 0; x -= 3)
-            currency.insert(x, ",");
-    }
-    currency.insert(0, "$"); // Insert dollar sign
-    return currency;
-}
-
 
 void MainWindow::on_actionStorage_triggered()
 {

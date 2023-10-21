@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-#include "gameinfo.h"
+#include "assetmanagement.h"
 
 
 GeneralAssetForm::GeneralAssetForm(QWidget *parent)
@@ -19,7 +19,7 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject*
 
     ui->weaponLabel->setToolTip(convertAssetToText());
     ui->weaponLabel->setText(weapon);
-    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
+    ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
     ui->pendingLabel->setText(QString::number(0, 'f', 0));
     ui->priceLabel->setText("$" + QString::number(m_assetObject->value("price").toDouble()));
 }
@@ -33,8 +33,8 @@ GeneralAssetForm::~GeneralAssetForm()
 
 void GeneralAssetForm::on_acquireButton_pressed()
 {
-    GameInfo::getInstance()->addweaponAsset(m_assetString, ui->amountSpinBox->value());
-    ui->currentLabel->setText(QString::number(GameInfo::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
+    AssetManagement::getInstance()->addweaponAsset(m_assetString, ui->amountSpinBox->value());
+    ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
 }
 
 void GeneralAssetForm::assetConstructor(QWidget *parent)
