@@ -1,6 +1,10 @@
 #include "gamecontrol.h"
 #include "ui_gamecontrol.h"
 
+#include "assetmanagement.h"
+
+#include <QDebug>
+
 GameControl::GameControl(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::GameControl)
@@ -18,6 +22,11 @@ void GameControl::updateMoneyLabel(double value)
     ui->moneyLabel->setText(convertNumberToDollarString(value));
 }
 
+void GameControl::updateDateLabel(QString date)
+{
+    ui->dateLabel->setText(date);
+}
+
 QString GameControl::convertNumberToDollarString(double value)
 {
     QString currency = QString::number(value, 'f', 2);
@@ -32,3 +41,30 @@ QString GameControl::convertNumberToDollarString(double value)
     currency.insert(0, "$"); // Insert dollar sign
     return currency;
 }
+
+void GameControl::on_advanceTimeButton_pressed()
+{
+    int days = 0;
+    int months = 0;
+    int years = 0;
+    switch(ui->timeSelectionComboBox->currentIndex())
+    {
+        case 0:
+            days = 1;
+            break;
+        case 1:
+            days = 7;
+            break;
+        case 2:
+            months = 1;
+            break;
+        case 3:
+            years = 1;
+            break;
+        default:
+            break;
+    }
+    qDebug() << "Adding time: days(" << days << "), months(" << months << "), years(" << years << ")";
+    AssetManagement::getInstance()->advanceTime(days, months, years);
+}
+

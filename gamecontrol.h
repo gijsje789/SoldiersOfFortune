@@ -16,6 +16,10 @@ public:
     ~GameControl();
 
     void updateMoneyLabel(double value);
+    void updateDateLabel(QString date);
+
+private slots:
+    void on_advanceTimeButton_pressed();
 
 private:
     Ui::GameControl *ui;

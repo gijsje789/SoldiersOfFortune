@@ -22,12 +22,14 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject*
     m_firingRate = obj->value("firing_rate").toInt();
     m_effective = obj->value("effective").toInt();
     m_price = obj->value("price").toDouble();
+    m_assetType = obj->value("type").toString();
 
-    ui->weaponLabel->setToolTip(convertAssetToText());
     ui->weaponLabel->setText(weapon);
     ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
     ui->pendingLabel->setText(QString::number(0, 'f', 0));
     ui->priceLabel->setText("$" + QString::number(m_price));
+    ui->weaponLabel->setToolTip(convertAssetToText());
+
     qDebug() << "Constructed asset form: " << weapon;
 }
 

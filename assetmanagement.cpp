@@ -60,10 +60,18 @@ void AssetManagement::saveGameInfoToFile(QString dir)
     output.open(QIODeviceBase::WriteOnly);
     if(output.isOpen())
     {
-        QString temp1 = "money,";
-        QString temp2 = QString::number(m_money, 'f', 2);
-        QString temp3 = "\n";
-        output.write((temp1 + temp2 + temp3).toStdString().c_str());
+        QString par = "money,";
+        QString val = QString::number(m_money, 'f', 2);
+        QString endline = "\n";
+        output.write((par + val + endline).toStdString().c_str());
+
+        par = "curDate,";
+        val = m_curDate.getDate();
+        output.write((par + val + endline).toStdString().c_str());
+
+        par = "startDate,";
+        val = m_startDate.getDate();
+        output.write((par + val + endline).toStdString().c_str());
     }
 }
 
@@ -85,6 +93,15 @@ void AssetManagement::loadGameInfoFromFile(QString dir)
             if(list[0] == "money")
             {
                 setMoney(list[1].toDouble());
+            }
+            else if(list[0] == "curDate")
+            {
+                m_curDate.setDate(list[1]);
+                m_control->updateDateLabel(m_curDate.getDate());
+            }
+            else if(list[0] == "startDate")
+            {
+                m_startDate.setDate(list[1]);
             }
         }
     }
@@ -187,7 +204,21 @@ void AssetManagement::setMoney(double value)
     m_control->updateMoneyLabel(m_money);
 }
 
+void AssetManagement::setStartingDate(QString date)
+{
+    m_curDate.setDate(date);
+    m_startDate.setDate(date);
+    m_control->updateDateLabel(m_curDate.getDate());
+}
+
 void AssetManagement::setGameControl(GameControl *control)
 {
     m_control = control;
+}
+
+void AssetManagement::advanceTime(int days, int months, int years)
+{
+    qDebug() << "AssetManagement: adding time: " << days << ", " << months << ", " << years;
+    m_curDate.addTime(days, months, years);
+    m_control->updateDateLabel(m_curDate.getDate());
 }

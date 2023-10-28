@@ -4,6 +4,7 @@
 #include <QMap>
 
 #include "gamecontrol.h"
+#include "date.h"
 
 class AssetManagement
 {
@@ -20,12 +21,17 @@ public:
     void addMoney(double value);
     double getMoney();
     void setMoney(double value);
+    void setStartingDate(QString date);
     void setGameControl(GameControl* control);
+    void advanceTime(int days, int months = 0, int years = 0);
 private:
     AssetManagement();
     static AssetManagement* m_instancePtr;
 
     double m_money;
+    Date m_curDate;
+    Date m_startDate;
+
     GameControl* m_control;
 
     QMap<QString, double> m_weaponAssets;

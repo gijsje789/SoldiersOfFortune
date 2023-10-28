@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>345</width>
+    <width>477</width>
     <height>53</height>
    </rect>
   </property>
@@ -112,6 +112,19 @@
        </property>
        <property name="text">
         <string>$ 0.00</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="dateLabel">
+       <property name="minimumSize">
+        <size>
+         <width>125</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>2023-January-31</string>
        </property>
       </widget>
      </item>

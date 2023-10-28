@@ -48,7 +48,8 @@ void MainWindow::switchCentralWidget(QWidget *newWidget)
 void MainWindow::newGame()
 {
     enableMenuBar(true);
-    AssetManagement::getInstance()->setMoney(1000000000);
+    AssetManagement::getInstance()->setMoney(1000000000); // TODO: make parameter
+    AssetManagement::getInstance()->setStartingDate("2023-January-1"); // TODO: make parameter
     on_actionStorage_triggered();
 }
 

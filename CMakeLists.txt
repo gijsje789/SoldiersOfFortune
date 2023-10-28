@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
         generalassetform.h generalassetform.cpp generalassetform.ui
         organizationstorage.h organizationstorage.cpp organizationstorage.ui
         gamecontrol.h gamecontrol.cpp gamecontrol.ui
+        date.h date.cpp
         resources.qrc
 )
 
