@@ -5,6 +5,7 @@
 
 AssetManagement* AssetManagement::m_instancePtr = nullptr;
 
+
 AssetManagement::AssetManagement()
 {
 
@@ -18,7 +19,7 @@ void AssetManagement::saveWeaponAssetsToFile(QString dir)
     output.open(QIODeviceBase::WriteOnly);
     if(output.isOpen())
     {
-        foreach(auto element, m_weaponAssets.keys())
+        for(auto& element: m_weaponAssets.keys())
         {
             QString temp1 = QString(element);
             QString temp2 = QString::number(m_weaponAssets.value(element), 'f', 0);
@@ -43,7 +44,51 @@ void AssetManagement::loadWeaponAssetsFromFile(QString dir)
         {
             line = input.readLine().trimmed();
             QStringList list =  line.split(',');
-            addweaponAsset(list[0], list[1].toInt());
+            addWeaponAsset(list[0], list[1].toInt());
+        }
+    }
+    else
+    {
+        qDebug() << "File not open: " << file;
+    }
+}
+
+void AssetManagement::savePendingWeaponAssetsToFile(QString dir)
+{
+    QString file = QDir(dir).filePath("pendingWeapons.csv");
+
+    QFile output = QFile(file);
+    output.open(QIODeviceBase::WriteOnly);
+    if(output.isOpen())
+    {
+        for(auto& element: m_pendingWeapons)
+        {
+            QString temp1 = element.name;
+            QString temp2 = QString::number(element.amount, 'f', 0);
+            QString temp3 = element.arrivalTime;
+            QString temp4 = QString('\n');
+            output.write((temp1 + ',' + temp2 + ',' + temp3 + temp4).toStdString().c_str());
+        }
+    }
+}
+
+void AssetManagement::loadPendingWeaponAssetsFromFile(QString dir)
+{
+    QString file = QDir(dir).filePath("pendingWeapons.csv");
+
+    QFile input = QFile(file);
+    input.open(QIODeviceBase::ReadOnly);
+    if(input.isOpen())
+    {
+        qDebug() << "File opened: " << file;
+
+        QString line = "";
+        while(!input.atEnd())
+        {
+            line = input.readLine().trimmed();
+            QStringList list =  line.split(',');
+            pendingAsset asset = {list[0], list[1].toInt(), list[2]};
+            m_pendingWeapons.append(asset);
         }
     }
     else
@@ -121,7 +166,31 @@ AssetManagement* AssetManagement::getInstance()
     return m_instancePtr;
 }
 
-void AssetManagement::addweaponAsset(QString name, int number)
+void AssetManagement::orderWeaponAsset(QString name, int number, int delayInDays)
+{
+    Date arrivalTime = m_curDate + delayInDays;
+    for(pendingAsset& element: m_pendingWeapons)
+    {
+        if(element.name == name)
+        {
+            // Found an element with the same name
+            if(element.arrivalTime == arrivalTime.getDate())
+            {
+                // found an element with the same arrival date, so can be combined.
+                element.amount += number;
+                return;
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
+    pendingAsset data = {name, number, arrivalTime.getDate()};
+    m_pendingWeapons.append(data);
+}
+
+void AssetManagement::addWeaponAsset(QString name, int number)
 {
     if(m_weaponAssets.contains(name))
     {
@@ -131,7 +200,6 @@ void AssetManagement::addweaponAsset(QString name, int number)
     {
         m_weaponAssets.insert(name, number);
     }
-    qDebug() << "Added: " << name << ", " << m_weaponAssets[name];
 }
 
 int AssetManagement::getWeaponAssetCurrent(QString name)
@@ -142,6 +210,37 @@ int AssetManagement::getWeaponAssetCurrent(QString name)
         rval = m_weaponAssets[name];
     }
     return rval;
+}
+
+int AssetManagement::getWeaponAssetPending(QString name)
+{
+    int rval = 0;
+    for(auto& element: m_pendingWeapons)
+    {
+        if(element.name == name)
+        {
+            rval += element.amount;
+        }
+    }
+    return rval;
+}
+
+QStringList AssetManagement::getWeaponAssetPendingDates(QString name)
+{
+    QStringList rval = {};
+    for(auto& element: m_pendingWeapons)
+    {
+        if(element.name == name)
+        {
+            rval.append(element.arrivalTime + ": " + QString::number(element.amount));
+        }
+    }
+    return rval;
+}
+
+void AssetManagement::checkPendingAssets()
+{
+
 }
 
 void AssetManagement::quit()

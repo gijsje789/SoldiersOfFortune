@@ -6,14 +6,25 @@
 #include "gamecontrol.h"
 #include "date.h"
 
+
+struct pendingAsset {
+    QString name;
+    int amount;
+    QString arrivalTime;
+};
+
 class AssetManagement
 {
 public:
     AssetManagement(const AssetManagement& obj) = delete;
 
     static AssetManagement* getInstance();
-    void addweaponAsset(QString name, int number);
+    void orderWeaponAsset(QString name, int number, int delayInDays);
+    void addWeaponAsset(QString name, int number);
     int getWeaponAssetCurrent(QString name);
+    int getWeaponAssetPending(QString name);
+    QStringList getWeaponAssetPendingDates(QString name);
+    void checkPendingAssets();
     void quit();
     void saveGame(QString dir);
     bool loadGame(QString dir);
@@ -35,8 +46,11 @@ private:
     GameControl* m_control;
 
     QMap<QString, double> m_weaponAssets;
+    QList<pendingAsset> m_pendingWeapons;
     void saveWeaponAssetsToFile(QString dir);
     void loadWeaponAssetsFromFile(QString dir);
+    void savePendingWeaponAssetsToFile(QString dir);
+    void loadPendingWeaponAssetsFromFile(QString dir);
     void saveGameInfoToFile(QString dir);
     void loadGameInfoFromFile(QString dir);
 };

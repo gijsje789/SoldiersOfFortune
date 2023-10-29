@@ -6,7 +6,8 @@
 		"velocity": 905,
 		"firing_rate": 900, 
 		"effective": 500,
-		"price": 700
+		"price": 700,
+		"deliveryTime": 14
 	},
 	"FN MK16": {
 		"type": "weapon",
@@ -15,7 +16,9 @@
 		"velocity": 875,
 		"firing_rate": 650, 
 		"effective": 500,
-		"price": 2100
+		"price": 2100,
+		"deliveryTime": 21
+
 	},
 	"FN MK17": {
 		"type": "weapon",
@@ -24,7 +27,9 @@
 		"velocity": 870,
 		"firing_rate": 550, 
 		"effective": 600,
-		"price": 3000
+		"price": 3000,
+		"deliveryTime": 18
+
 	},
 	"AK-47": {
 		"type": "weapon",
@@ -33,6 +38,7 @@
 		"velocity": 715,
 		"firing_rate": 600, 
 		"effective": 350,
-		"price": 600
+		"price": 600,
+		"deliveryTime": 10
 	}
 }

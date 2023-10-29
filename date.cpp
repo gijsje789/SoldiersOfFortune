@@ -19,6 +19,14 @@ Date::Date()
     m_day = 1;
 }
 
+Date::Date(const Date &obj):
+    m_year(obj.m_year),
+    m_month(obj.m_month),
+    m_day(obj.m_day)
+{
+
+}
+
 Date::Date(int year, Months month, int day) :
     m_year(year),
     m_month(month),
@@ -142,6 +150,13 @@ int Date::year() const
 void Date::setYear(int newYear)
 {
     m_year = newYear;
+}
+
+Date Date::operator+(int val)
+{
+    Date newVal = Date(*this);
+    newVal.addDays(val);
+    return newVal;
 }
 
 int Date::getDaysInMonth(Months month, int year)

@@ -24,6 +24,7 @@ Months& operator++(Months& orig, int);
 class Date {
 public:
     Date();
+    Date(Date const &obj);
     Date(int year, Months month, int day);
     void setDate(int year, Months month, int day);
     void setDate(QString formatted);
@@ -42,6 +43,8 @@ public:
 
     int year() const;
     void setYear(int newYear);
+
+    Date operator+(int val);
 
 private:
     Months m_month = Months::MO_JANUARY;

@@ -25,7 +25,7 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
 
     auto keys = root.keys();
     QMap<QString, GeneralAssetForm*> assets;
-    foreach(auto weaponName, keys)
+    for(auto& weaponName: keys)
     {
         QJsonObject weapon = root.value(weaponName).toObject();
         assets.insert(weaponName, new GeneralAssetForm(this,

@@ -33,10 +33,13 @@ private:
     int m_firingRate;
     int m_effective;
     double m_price;
+    int m_deliveryTime;
 
     void assetConstructor(QWidget *parent);
     QString convertAssetToText();
     QString convertWeaponToText();
+    QString convertPendingAssetToText();
+    QString convertPendingWeaponToText();
 };
 
 #endif // GENERALASSETFORM_H

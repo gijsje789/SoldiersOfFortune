@@ -23,12 +23,15 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject*
     m_effective = obj->value("effective").toInt();
     m_price = obj->value("price").toDouble();
     m_assetType = obj->value("type").toString();
+    m_deliveryTime = obj->value("deliveryTime").toInt();
+
 
     ui->weaponLabel->setText(weapon);
     ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
     ui->pendingLabel->setText(QString::number(0, 'f', 0));
     ui->priceLabel->setText("$" + QString::number(m_price));
     ui->weaponLabel->setToolTip(convertAssetToText());
+    ui->pendingLabel->setToolTip(convertPendingAssetToText());
 
     qDebug() << "Constructed asset form: " << weapon;
 }
@@ -41,11 +44,19 @@ GeneralAssetForm::~GeneralAssetForm()
 void GeneralAssetForm::on_acquireButton_pressed()
 {
     // TODO: add pending functionality.
-    AssetManagement::getInstance()->addweaponAsset(m_assetString, ui->amountSpinBox->value());
-    ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
-    qDebug() << "Amount: " << ui->amountSpinBox->value();
-    qDebug() << "AssetObject: " << m_price;
-    AssetManagement::getInstance()->takeMoney(ui->amountSpinBox->value() * m_price);
+    if(AssetManagement::getInstance()->takeMoney(ui->amountSpinBox->value() * m_price))
+    {
+        AssetManagement::getInstance()->orderWeaponAsset(m_assetString, ui->amountSpinBox->value(), m_deliveryTime);
+        ui->pendingLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetPending(m_assetString), 'f', 0));
+        ui->pendingLabel->setToolTip(convertPendingAssetToText());
+        qDebug() << "Amount: " << ui->amountSpinBox->value();
+        qDebug() << "AssetObject: " << m_price;
+    }
+    else
+    {
+        qDebug() << "Not enough money!";
+        // TODO: give message
+    }
 }
 
 void GeneralAssetForm::assetConstructor(QWidget *parent)
@@ -64,7 +75,7 @@ QString GeneralAssetForm::convertAssetToText()
     }
     else
     {
-        qDebug() << "Unknown type: " << m_assetType;
+        qDebug() << "Unknown current asset type: " << m_assetType;
     }
     return assetInfo;
 }
@@ -77,6 +88,32 @@ QString GeneralAssetForm::convertWeaponToText()
     weaponInfo += "Muzzle velocity:\t" + QString::number(m_velocity) + " m/s\n";
     weaponInfo += "Firing rate:\t" + QString::number(m_firingRate) + " rpm\n";
     weaponInfo += "Effective range:\t" + QString::number(m_effective) + " m\n";
+    weaponInfo += "Delivery time:\t" + QString::number(m_deliveryTime) + " days\n";
     return weaponInfo;
+}
+
+QString GeneralAssetForm::convertPendingAssetToText()
+{
+    QString assetInfo = "";
+    if(m_assetType == "weapon")
+    {
+        assetInfo = convertPendingWeaponToText();
+    }
+    else
+    {
+        qDebug() << "Unknown pending type: " << m_assetType;
+    }
+    return assetInfo;
+}
+
+QString GeneralAssetForm::convertPendingWeaponToText()
+{
+    QString assetPending = "";
+    QStringList list = AssetManagement::getInstance()->getWeaponAssetPendingDates(m_assetString);
+    for(auto& element: list)
+    {
+        assetPending += element + '\n';
+    }
+    return assetPending;
 }
 
