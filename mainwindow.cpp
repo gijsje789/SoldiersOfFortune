@@ -23,7 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     GameControl* control = new GameControl(this);
     ui->menubar->setCornerWidget(control);
-    AssetManagement::getInstance()->setGameControl(control);
+
+    // Connect AssetManagement update signals to GameControl's slots to update the labels
+    connect(AssetManagement::getInstance(), &AssetManagement::dateChanged, control, &GameControl::updateDateLabel);
+    connect(AssetManagement::getInstance(), &AssetManagement::moneyChanged, control, &GameControl::updateMoneyLabel);
+
+    // Connect GameControl advance time button to AssetManagement's time control
+    connect(control, &GameControl::advanceTime, AssetManagement::getInstance(), &AssetManagement::advanceTime);
 
     ui->menubar->setEnabled(false);
 }

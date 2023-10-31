@@ -35,6 +35,11 @@ Date::Date(int year, Months month, int day) :
 
 }
 
+Date::Date(QString dateString)
+{
+    this->setDate(dateString);
+}
+
 void Date::setDate(int year, Months month, int day)
 {
     m_year = year;
@@ -157,6 +162,44 @@ Date Date::operator+(int val)
     Date newVal = Date(*this);
     newVal.addDays(val);
     return newVal;
+}
+
+bool Date::operator>(const Date &rh)
+{
+    bool rval = false;
+    if(this->m_year > rh.m_year)
+    {
+        rval = true;
+    }
+    else
+    {
+        if(this->m_year == rh.m_year)
+        {
+            // Same year
+            if(this->m_month > rh.m_month)
+            {
+                rval = true;
+            }
+            else
+            {
+                if(this->m_month == rh.m_month)
+                {
+                    // Same month
+                    if(this->m_day >= rh.m_day)
+                    {
+                        rval = true;
+                    }
+                }
+            }
+        }
+    }
+    return rval;
+}
+
+bool Date::operator>(const QString& rh)
+{
+    Date arrivalDate = Date(rh);
+    return *this > arrivalDate;
 }
 
 int Date::getDaysInMonth(Months month, int year)

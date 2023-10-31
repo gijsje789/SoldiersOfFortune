@@ -142,7 +142,7 @@ void AssetManagement::loadGameInfoFromFile(QString dir)
             else if(list[0] == "curDate")
             {
                 m_curDate.setDate(list[1]);
-                m_control->updateDateLabel(m_curDate.getDate());
+                emit dateChanged(m_curDate.getDate());
             }
             else if(list[0] == "startDate")
             {
@@ -240,7 +240,21 @@ QStringList AssetManagement::getWeaponAssetPendingDates(QString name)
 
 void AssetManagement::checkPendingAssets()
 {
+    checkPendingWeapons();
+}
 
+void AssetManagement::checkPendingWeapons()
+{
+    int i = 0;
+    for(auto& order : m_pendingWeapons)
+    {
+        if(m_curDate > order.arrivalTime)
+        {
+            addWeaponAsset(order.name, order.amount);
+            m_pendingWeapons.removeAt(i);
+        }
+        i++;
+    }
 }
 
 void AssetManagement::quit()
@@ -282,14 +296,14 @@ bool AssetManagement::takeMoney(double value)
         m_money -= value;
         rval = true;
     }
-    m_control->updateMoneyLabel(m_money);
+    emit moneyChanged(m_money);
     return rval;
 }
 
 void AssetManagement::addMoney(double value)
 {
     m_money += value;
-    m_control->updateMoneyLabel(m_money);
+    emit moneyChanged(m_money);
 }
 
 double AssetManagement::getMoney()
@@ -300,24 +314,20 @@ double AssetManagement::getMoney()
 void AssetManagement::setMoney(double value)
 {
     m_money = value;
-    m_control->updateMoneyLabel(m_money);
+    emit moneyChanged(m_money);
 }
 
 void AssetManagement::setStartingDate(QString date)
 {
     m_curDate.setDate(date);
     m_startDate.setDate(date);
-    m_control->updateDateLabel(m_curDate.getDate());
-}
-
-void AssetManagement::setGameControl(GameControl *control)
-{
-    m_control = control;
+    emit dateChanged(m_curDate.getDate());
 }
 
 void AssetManagement::advanceTime(int days, int months, int years)
 {
     qDebug() << "AssetManagement: adding time: " << days << ", " << months << ", " << years;
     m_curDate.addTime(days, months, years);
-    m_control->updateDateLabel(m_curDate.getDate());
+    emit dateChanged(m_curDate.getDate());
+    checkPendingAssets();
 }

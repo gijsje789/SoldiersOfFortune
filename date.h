@@ -26,6 +26,7 @@ public:
     Date();
     Date(Date const &obj);
     Date(int year, Months month, int day);
+    Date(QString dateString);
     void setDate(int year, Months month, int day);
     void setDate(QString formatted);
     QString getDate();
@@ -45,6 +46,8 @@ public:
     void setYear(int newYear);
 
     Date operator+(int val);
+    bool operator>(const Date& rh);
+    bool operator>(const QString& rh);
 
 private:
     Months m_month = Months::MO_JANUARY;

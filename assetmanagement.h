@@ -13,8 +13,9 @@ struct pendingAsset {
     QString arrivalTime;
 };
 
-class AssetManagement
+class AssetManagement : public QObject
 {
+    Q_OBJECT
 public:
     AssetManagement(const AssetManagement& obj) = delete;
 
@@ -24,7 +25,6 @@ public:
     int getWeaponAssetCurrent(QString name);
     int getWeaponAssetPending(QString name);
     QStringList getWeaponAssetPendingDates(QString name);
-    void checkPendingAssets();
     void quit();
     void saveGame(QString dir);
     bool loadGame(QString dir);
@@ -33,8 +33,7 @@ public:
     double getMoney();
     void setMoney(double value);
     void setStartingDate(QString date);
-    void setGameControl(GameControl* control);
-    void advanceTime(int days, int months = 0, int years = 0);
+
 private:
     AssetManagement();
     static AssetManagement* m_instancePtr;
@@ -42,8 +41,6 @@ private:
     double m_money;
     Date m_curDate;
     Date m_startDate;
-
-    GameControl* m_control;
 
     QMap<QString, double> m_weaponAssets;
     QList<pendingAsset> m_pendingWeapons;
@@ -53,6 +50,16 @@ private:
     void loadPendingWeaponAssetsFromFile(QString dir);
     void saveGameInfoToFile(QString dir);
     void loadGameInfoFromFile(QString dir);
+    void checkPendingAssets();
+    void checkPendingWeapons();
+
+signals:
+    void dateChanged(QString newDate);
+    void moneyChanged(double value);
+
+public slots:
+    void advanceTime(int days, int months = 0, int years = 0);
+
 };
 
 #endif // ASSETMANAGEMENT_H

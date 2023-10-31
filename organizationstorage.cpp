@@ -7,8 +7,6 @@
 #include <QFile>
 #include <QMap>
 
-#include "generalassetform.h"
-
 OrganizationStorage::OrganizationStorage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OrganizationStorage)
@@ -24,14 +22,14 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
     QJsonObject root = doc.object();
 
     auto keys = root.keys();
-    QMap<QString, GeneralAssetForm*> assets;
+
     for(auto& weaponName: keys)
     {
         QJsonObject weapon = root.value(weaponName).toObject();
-        assets.insert(weaponName, new GeneralAssetForm(this,
+        m_assets.insert(weaponName, new GeneralAssetForm(this,
                                                     weaponName,
                                                     &weapon));
-        ui->verticalLayout->addWidget(assets[weaponName]);
+        ui->verticalLayout->addWidget(m_assets[weaponName]);
     }
     ui->verticalLayout->addSpacerItem(new QSpacerItem(10,10, QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
@@ -39,4 +37,12 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
 OrganizationStorage::~OrganizationStorage()
 {
     delete ui;
+}
+
+void OrganizationStorage::updatePendingToolTips()
+{
+    for(auto& asset : m_assets)
+    {
+        asset->updatePendingToolTip();
+    }
 }

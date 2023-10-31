@@ -41,6 +41,11 @@ GeneralAssetForm::~GeneralAssetForm()
     delete ui;
 }
 
+void GeneralAssetForm::updatePendingToolTip()
+{
+    ui->pendingLabel->setToolTip(convertPendingAssetToText());
+}
+
 void GeneralAssetForm::on_acquireButton_pressed()
 {
     // TODO: add pending functionality.

@@ -15,11 +15,15 @@ public:
     explicit GameControl(QWidget *parent = nullptr);
     ~GameControl();
 
+public slots:
     void updateMoneyLabel(double value);
     void updateDateLabel(QString date);
 
 private slots:
     void on_advanceTimeButton_pressed();
+
+signals:
+    void advanceTime(int days, int months, int years);
 
 private:
     Ui::GameControl *ui;

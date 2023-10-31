@@ -1,8 +1,6 @@
 #include "gamecontrol.h"
 #include "ui_gamecontrol.h"
 
-#include "assetmanagement.h"
-
 #include <QDebug>
 
 GameControl::GameControl(QWidget *parent) :
@@ -65,6 +63,6 @@ void GameControl::on_advanceTimeButton_pressed()
             break;
     }
     qDebug() << "Adding time: days(" << days << "), months(" << months << "), years(" << years << ")";
-    AssetManagement::getInstance()->advanceTime(days, months, years);
+    emit advanceTime(days, months, years);
 }
 

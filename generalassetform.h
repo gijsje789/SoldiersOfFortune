@@ -18,6 +18,8 @@ public:
     GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj);
     ~GeneralAssetForm();
 
+    void updatePendingToolTip();
+
 private slots:
     void on_acquireButton_pressed();
 
