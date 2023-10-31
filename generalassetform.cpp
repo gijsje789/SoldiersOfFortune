@@ -11,11 +11,12 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent)
     assetConstructor(parent);
 }
 
-GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj):
-    m_assetString(weapon)
+GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject* obj)
 {
     assetConstructor(parent);
 
+    // TODO: ammo, velocity etc are specific to weapon, needs refactoring to be more general somehow
+    m_assetString = weapon;
     m_ammo = obj->value("ammo").toString();
     m_weight = obj->value("weight").toDouble();
     m_velocity = obj->value("velocity").toInt();
@@ -25,13 +26,7 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject*
     m_assetType = obj->value("type").toString();
     m_deliveryTime = obj->value("deliveryTime").toInt();
 
-
-    ui->weaponLabel->setText(weapon);
-    ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
-    ui->pendingLabel->setText(QString::number(0, 'f', 0));
-    ui->priceLabel->setText("$" + QString::number(m_price));
-    ui->weaponLabel->setToolTip(convertAssetToText());
-    ui->pendingLabel->setToolTip(convertPendingAssetToText());
+    updateContents();
 
     qDebug() << "Constructed asset form: " << weapon;
 }
@@ -46,16 +41,23 @@ void GeneralAssetForm::updatePendingToolTip()
     ui->pendingLabel->setToolTip(convertPendingAssetToText());
 }
 
+void GeneralAssetForm::updateContents()
+{
+    ui->weaponLabel->setText(m_assetString);
+    ui->currentLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetCurrent(m_assetString), 'f', 0));
+    ui->pendingLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetPending(m_assetString), 'f', 0));
+    ui->priceLabel->setText("$" + QString::number(m_price));
+    ui->weaponLabel->setToolTip(convertAssetToText());
+    ui->pendingLabel->setToolTip(convertPendingAssetToText());
+}
+
 void GeneralAssetForm::on_acquireButton_pressed()
 {
     // TODO: add pending functionality.
     if(AssetManagement::getInstance()->takeMoney(ui->amountSpinBox->value() * m_price))
     {
         AssetManagement::getInstance()->orderWeaponAsset(m_assetString, ui->amountSpinBox->value(), m_deliveryTime);
-        ui->pendingLabel->setText(QString::number(AssetManagement::getInstance()->getWeaponAssetPending(m_assetString), 'f', 0));
-        ui->pendingLabel->setToolTip(convertPendingAssetToText());
-        qDebug() << "Amount: " << ui->amountSpinBox->value();
-        qDebug() << "AssetObject: " << m_price;
+        updateContents();
     }
     else
     {

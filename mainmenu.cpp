@@ -1,9 +1,8 @@
 #include "mainmenu.h"
 #include "ui_mainmenu.h"
 
-MainMenu::MainMenu(QWidget *parent, MainWindow* main) :
+MainMenu::MainMenu(QWidget *parent) :
     QWidget(parent),
-    mainWindow(main),
     ui(new Ui::MainMenu)
 {
     ui->setupUi(this);
@@ -16,24 +15,24 @@ MainMenu::~MainMenu()
 
 void MainMenu::on_QuitButton_pressed()
 {
-    mainWindow->quit();
+    emit quitButtonPressed();
 }
 
 
 void MainMenu::on_NewGameButton_pressed()
 {
-    mainWindow->newGame();
+    emit newGameButtonPressed();
 }
 
 
 void MainMenu::on_LoadGameButton_pressed()
 {
-    mainWindow->loadGame();
+    emit loadGameButtonPressed();
 }
 
 
 void MainMenu::on_SettingsButton_pressed()
 {
-    mainWindow->settings();
+    emit settingsButtonPressed();
 }
 

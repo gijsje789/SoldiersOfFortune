@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "generalassetform.h"
+#include "assetmanagement.h"
 
 namespace Ui {
 class OrganizationStorage;

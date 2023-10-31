@@ -1,11 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include "mainmenu.h"
-#include "organizationstorage.h"
-#include "assetmanagement.h"
-#include "gamecontrol.h"
-
 #include <QMenuBar>
 #include <QMenu>
 #include <QDesktopServices>
@@ -15,11 +10,13 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_centralWidget(nullptr)
 {
     ui->setupUi(this);
 
-    centralWidget = new MainMenu(this, this);
-    this->setCentralWidget(centralWidget);
+    MainMenu* menu = new MainMenu(this);
+    switchCentralWidget(menu);
+    setUpMainMenu(menu);
 
     GameControl* control = new GameControl(this);
     ui->menubar->setCornerWidget(control);
@@ -29,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(AssetManagement::getInstance(), &AssetManagement::moneyChanged, control, &GameControl::updateMoneyLabel);
 
     // Connect GameControl advance time button to AssetManagement's time control
-    connect(control, &GameControl::advanceTime, AssetManagement::getInstance(), &AssetManagement::advanceTime);
+    connect(control, &GameControl::advanceTime, AssetManagement::getInstance(), &AssetManagement::advanceGameTime);
 
     ui->menubar->setEnabled(false);
 }
@@ -47,8 +44,16 @@ void MainWindow::enableMenuBar(bool value)
 void MainWindow::switchCentralWidget(QWidget *newWidget)
 {
     this->setCentralWidget(newWidget);
-    delete centralWidget;
-    centralWidget = newWidget;
+    if(m_centralWidget) delete m_centralWidget;
+    m_centralWidget = newWidget;
+}
+
+void MainWindow::setUpMainMenu(MainMenu *menu)
+{
+    connect(menu, &MainMenu::newGameButtonPressed, this, &MainWindow::newGame);
+    connect(menu, &MainMenu::loadGameButtonPressed, this, &MainWindow::loadGame);
+    connect(menu, &MainMenu::quitButtonPressed, this, &MainWindow::quit);
+    connect(menu, &MainMenu::settingsButtonPressed, this, &MainWindow::settings);
 }
 
 void MainWindow::newGame()
@@ -61,8 +66,8 @@ void MainWindow::newGame()
 
 void MainWindow::loadGame()
 {
-    // find the load folder
-    // give option to select from it
+    // TODO: find the load folder
+    // TODO: give option to select from it
     QDir saveGameFolder = QDir("./save_games");
     QDir saveGame = saveGameFolder.filePath("test");
     qDebug() << "Save game: " << saveGame;

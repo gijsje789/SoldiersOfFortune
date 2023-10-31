@@ -56,9 +56,10 @@ private:
 signals:
     void dateChanged(QString newDate);
     void moneyChanged(double value);
+    void assetsChanged();
 
 public slots:
-    void advanceTime(int days, int months = 0, int years = 0);
+    void advanceGameTime(int days, int months = 0, int years = 0);
 
 };
 

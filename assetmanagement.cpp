@@ -88,8 +88,10 @@ void AssetManagement::loadPendingWeaponAssetsFromFile(QString dir)
             line = input.readLine().trimmed();
             QStringList list =  line.split(',');
             pendingAsset asset = {list[0], list[1].toInt(), list[2]};
+            qDebug() << "Pending asset loaded: " << line;
             m_pendingWeapons.append(asset);
         }
+        qDebug() << "Number of pending assets loaded: " << m_pendingWeapons.length();
     }
     else
     {
@@ -248,8 +250,10 @@ void AssetManagement::checkPendingWeapons()
     int i = 0;
     for(auto& order : m_pendingWeapons)
     {
+        qDebug() << "Checking weapons dates: " << m_curDate.getDate() << " against " << order.arrivalTime;
         if(m_curDate > order.arrivalTime)
         {
+            qDebug() << order.amount << " times " << order.name << " has arrived.";
             addWeaponAsset(order.name, order.amount);
             m_pendingWeapons.removeAt(i);
         }
@@ -269,6 +273,7 @@ void AssetManagement::saveGame(QString dir)
         QDir().mkdir(dir);
     }
     saveWeaponAssetsToFile(dir);
+    savePendingWeaponAssetsToFile(dir);
     saveGameInfoToFile(dir);
 }
 
@@ -278,6 +283,7 @@ bool AssetManagement::loadGame(QString dir)
     if(QDir(dir).exists())
     {
         loadWeaponAssetsFromFile(dir);
+        loadPendingWeaponAssetsFromFile(dir);
         loadGameInfoFromFile(dir);
         rval = true;
     }
@@ -324,10 +330,11 @@ void AssetManagement::setStartingDate(QString date)
     emit dateChanged(m_curDate.getDate());
 }
 
-void AssetManagement::advanceTime(int days, int months, int years)
+void AssetManagement::advanceGameTime(int days, int months, int years)
 {
     qDebug() << "AssetManagement: adding time: " << days << ", " << months << ", " << years;
     m_curDate.addTime(days, months, years);
     emit dateChanged(m_curDate.getDate());
     checkPendingAssets();
+    emit assetsChanged();
 }

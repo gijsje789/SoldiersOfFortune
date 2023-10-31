@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include <QLabel>
 
+#include "mainmenu.h"
+#include "organizationstorage.h"
+#include "assetmanagement.h"
+#include "gamecontrol.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,11 +22,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void loadGame();
     void newGame();
     void quit();
     void settings();
-    void loadGame();
     void saveGame();
+
 private slots:
     void on_actionStorage_triggered();
 
@@ -30,11 +37,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QWidget* centralWidget;
-    QLabel* moneyLabel;
+    QWidget* m_centralWidget;
 
-    QString convertNumberToDollarString(double value);
     void enableMenuBar(bool value);
     void switchCentralWidget(QWidget* newWidget);
+    void setUpMainMenu(MainMenu* menu);
 };
 #endif // MAINWINDOW_H

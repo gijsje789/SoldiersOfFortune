@@ -29,6 +29,7 @@ OrganizationStorage::OrganizationStorage(QWidget *parent) :
         m_assets.insert(weaponName, new GeneralAssetForm(this,
                                                     weaponName,
                                                     &weapon));
+        connect(AssetManagement::getInstance(), &AssetManagement::assetsChanged, m_assets[weaponName], &GeneralAssetForm::updateContents);
         ui->verticalLayout->addWidget(m_assets[weaponName]);
     }
     ui->verticalLayout->addSpacerItem(new QSpacerItem(10,10, QSizePolicy::Minimum, QSizePolicy::Expanding));

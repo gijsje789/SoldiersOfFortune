@@ -20,6 +20,9 @@ public:
 
     void updatePendingToolTip();
 
+public slots:
+    void updateContents();
+
 private slots:
     void on_acquireButton_pressed();
 
