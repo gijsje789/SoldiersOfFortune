@@ -37,8 +37,6 @@ void AssetManagement::loadWeaponAssetsFromFile(QString dir)
     input.open(QIODeviceBase::ReadOnly);
     if(input.isOpen())
     {
-        qDebug() << "File opened: " << file;
-
         QString line = "";
         while(!input.atEnd())
         {
@@ -80,18 +78,14 @@ void AssetManagement::loadPendingWeaponAssetsFromFile(QString dir)
     input.open(QIODeviceBase::ReadOnly);
     if(input.isOpen())
     {
-        qDebug() << "File opened: " << file;
-
         QString line = "";
         while(!input.atEnd())
         {
             line = input.readLine().trimmed();
             QStringList list =  line.split(',');
             pendingAsset asset = {list[0], list[1].toInt(), list[2]};
-            qDebug() << "Pending asset loaded: " << line;
             m_pendingWeapons.append(asset);
         }
-        qDebug() << "Number of pending assets loaded: " << m_pendingWeapons.length();
     }
     else
     {
@@ -130,8 +124,6 @@ void AssetManagement::loadGameInfoFromFile(QString dir)
     input.open(QIODeviceBase::ReadOnly);
     if(input.isOpen())
     {
-        qDebug() << "File opened: " << file;
-
         QString line = "";
         while(!input.atEnd())
         {
@@ -250,14 +242,18 @@ void AssetManagement::checkPendingWeapons()
     int i = 0;
     for(auto& order : m_pendingWeapons)
     {
-        qDebug() << "Checking weapons dates: " << m_curDate.getDate() << " against " << order.arrivalTime;
         if(m_curDate > order.arrivalTime)
         {
-            qDebug() << order.amount << " times " << order.name << " has arrived.";
             addWeaponAsset(order.name, order.amount);
             m_pendingWeapons.removeAt(i);
+            // do not increment i here, when asset is removed the list shifts.
+            // e.g. asset[1] is removed, then asset[2] is shifted to asset[1] position
+            // which still needs to be checked in the next iteration of the loop.
         }
-        i++;
+        else
+        {
+            i++;
+        }
     }
 }
 
@@ -332,7 +328,6 @@ void AssetManagement::setStartingDate(QString date)
 
 void AssetManagement::advanceGameTime(int days, int months, int years)
 {
-    qDebug() << "AssetManagement: adding time: " << days << ", " << months << ", " << years;
     m_curDate.addTime(days, months, years);
     emit dateChanged(m_curDate.getDate());
     checkPendingAssets();

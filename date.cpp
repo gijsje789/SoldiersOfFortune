@@ -1,7 +1,5 @@
 #include "date.h"
 
-#include <QDebug>
-
 Months& operator++(Months& orig, int)
 {
     orig = static_cast<Months>(orig + 1);
@@ -57,8 +55,6 @@ void Date::setDate(QString formatted)
     m_year = formatted.sliced(0, yearSep).toInt();
     m_month = MonthStrings.key(formatted.sliced(yearSep+1, monthSep-(yearSep+1)));
     m_day = formatted.sliced(monthSep+1).toInt();
-
-    qDebug() << "Date set to: " << getDate();
 }
 
 QString Date::getDate()
@@ -70,9 +66,6 @@ void Date::addDays(int days)
 {
     int daysThisMonth = 0;
     int daysLeft = 0;
-
-    qDebug() << "Current date: " << m_year << ", " << MonthStrings[m_month] << ", " << m_day;
-    qDebug() << "Adding number of days: " << days;
 
     while(days > 0)
     {
@@ -96,7 +89,6 @@ void Date::addDays(int days)
             days = 0;
         }
     }
-    qDebug() << "New date: " << m_year << ", " << MonthStrings[m_month] << ", " << m_day;
 }
 
 void Date::addWeek(int weeks)
@@ -109,19 +101,16 @@ void Date::addMonth(int months)
     if(months > 0)
     {
         addDays(getDaysInMonth(m_month, m_year));
-        qDebug() << "New year: " << MonthStrings[m_month];
     }
 }
 
 void Date::addYear(int years)
 {
     m_year += years;
-    qDebug() << "New year: " << m_year;
 }
 
 void Date::addTime(int days, int months, int years)
 {
-    qDebug() << "Date: adding time: " << days << ", " << months << ", " << years;
     addYear(years);
     addMonth(months);
     addDays(days);

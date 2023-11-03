@@ -70,11 +70,9 @@ void MainWindow::loadGame()
     // TODO: give option to select from it
     QDir saveGameFolder = QDir("./save_games");
     QDir saveGame = saveGameFolder.filePath("test");
-    qDebug() << "Save game: " << saveGame;
 
     if(saveGameFolder.exists())
     {
-        qDebug() << "Saved games folder exists.";
         enableMenuBar(true);
         // TODO: trigger pop-up with available save games
         if(AssetManagement::getInstance()->loadGame(saveGame.path()))

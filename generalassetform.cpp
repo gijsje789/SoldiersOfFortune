@@ -27,8 +27,6 @@ GeneralAssetForm::GeneralAssetForm(QWidget *parent, QString weapon, QJsonObject*
     m_deliveryTime = obj->value("deliveryTime").toInt();
 
     updateContents();
-
-    qDebug() << "Constructed asset form: " << weapon;
 }
 
 GeneralAssetForm::~GeneralAssetForm()
