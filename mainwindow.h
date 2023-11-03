@@ -34,6 +34,14 @@ private slots:
 
     void on_actionSave_game_triggered();
 
+    void on_actionNew_game_triggered();
+
+    void on_actionLoad_game_triggered();
+
+    void on_actionSettings_triggered();
+
+    void on_actionQuit_triggered();
+
 private:
     Ui::MainWindow *ui;
 

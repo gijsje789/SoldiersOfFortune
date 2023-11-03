@@ -58,6 +58,7 @@ void MainWindow::setUpMainMenu(MainMenu *menu)
 
 void MainWindow::newGame()
 {
+    // TODO: reset everything to actually a new game (pending assets are saved).
     enableMenuBar(true);
     AssetManagement::getInstance()->setMoney(1000000000); // TODO: make parameter
     AssetManagement::getInstance()->setStartingDate("2023-January-1"); // TODO: make parameter
@@ -68,6 +69,7 @@ void MainWindow::loadGame()
 {
     // TODO: find the load folder
     // TODO: give option to select from it
+    // TODO: when loading multiple times, the assets increase.
     QDir saveGameFolder = QDir("./save_games");
     QDir saveGame = saveGameFolder.filePath("test");
 
@@ -118,5 +120,29 @@ void MainWindow::on_actionStorage_triggered()
 void MainWindow::on_actionSave_game_triggered()
 {
     saveGame();
+}
+
+
+void MainWindow::on_actionNew_game_triggered()
+{
+    newGame();
+}
+
+
+void MainWindow::on_actionLoad_game_triggered()
+{
+    loadGame();
+}
+
+
+void MainWindow::on_actionSettings_triggered()
+{
+    settings();
+}
+
+
+void MainWindow::on_actionQuit_triggered()
+{
+    quit();
 }
 
